@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\FormController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\YouTubeController;
 use Illuminate\Support\Facades\Route;
@@ -7,6 +9,22 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Static Pages
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
+Route::get('/greeting', function () {
+    return view('greeting');
+})->name('greeting');
+
+// User Registration Form Routes
+Route::get('/form', [FormController::class, 'create'])->name('form.create');
+Route::post('/form', [FormController::class, 'store'])->name('form.store');
+
+// Products Resource Routes
+Route::resource('products', ProductController::class);
 
 // YouTube API Routes
 Route::get('/youtube', [YouTubeController::class, 'index'])->name('youtube.index');
@@ -37,4 +55,5 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
 

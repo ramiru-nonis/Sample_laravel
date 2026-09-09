@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Edit Product - {{ config('app.name', 'Laravel') }}</title>
+    <title>Create Product - {{ config('app.name', 'Laravel') }}</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700" rel="stylesheet" />
     <style>
@@ -19,7 +19,7 @@
 </head>
 <body>
     <div class="container">
-        <h1 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Edit Product</h1>
+        <h1 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Add New Product</h1>
 
         @if ($errors->any())
             <div style="background: #fee2e2; color: #991b1b; padding: 0.75rem; border-radius: 0.375rem; margin-bottom: 1rem; font-size: 0.875rem;">
@@ -31,27 +31,25 @@
             </div>
         @endif
 
-        <form action="{{ route('products.update', $product->id) }}" method="POST">
+        <form action="{{ route('products.store') }}" method="POST">
             @csrf
-            @method('PUT')
-
             <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" name="name" id="name" value="{{ old('name', $product->name) }}" required>
+                <label for="name">Product Name</label>
+                <input type="text" name="name" id="name" value="{{ old('name') }}" required>
             </div>
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea name="description" id="description" rows="3">{{ old('description', $product->description) }}</textarea>
+                <textarea name="description" id="description" rows="3">{{ old('description') }}</textarea>
             </div>
             <div class="form-group">
                 <label for="price">Price ($)</label>
-                <input type="number" step="0.01" name="price" id="price" value="{{ old('price', $product->price) }}" required>
+                <input type="number" step="0.01" name="price" id="price" value="{{ old('price', '0.00') }}" required>
             </div>
             <div class="form-group">
-                <label for="stock">Stock</label>
-                <input type="number" name="stock" id="stock" value="{{ old('stock', $product->stock) }}" required>
+                <label for="stock">Stock Quantity</label>
+                <input type="number" name="stock" id="stock" value="{{ old('stock', '0') }}" required>
             </div>
-            <button type="submit" class="btn">Update Product</button>
+            <button type="submit" class="btn">Save Product</button>
         </form>
         <a href="{{ route('products.index') }}" class="back-link">&larr; Back to Products</a>
     </div>

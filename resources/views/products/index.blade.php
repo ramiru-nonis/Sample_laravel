@@ -147,7 +147,60 @@
             text-align: center;
             padding: 3rem 1rem;
             color: #706f6c;
-            font-size: 1rem;
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #1b1b18;
+            color: #ffffff;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: 0.375rem;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: #000000;
+        }
+
+        .alert-success {
+            background-color: #ecfdf5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+            padding: 0.75rem 1rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .btn-action {
+            font-size: 0.8125rem;
+            color: #2563eb;
+            text-decoration: none;
+            margin-right: 0.5rem;
+        }
+
+        .btn-action:hover {
+            text-decoration: underline;
+        }
+
+        .btn-delete {
+            background: none;
+            border: none;
+            color: #dc2626;
+            font-size: 0.8125rem;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .btn-delete:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -158,7 +211,16 @@
                 <h1 class="title">Product List</h1>
                 <p class="muted-text">Overview of all available products</p>
             </div>
+            <div class="header-actions">
+                <a href="{{ route('products.create') }}" class="btn-primary">+ Add Product</a>
+            </div>
         </div>
+
+        @if(session('success'))
+            <div class="alert-success">
+                ✓ {{ session('success') }}
+            </div>
+        @endif
 
         <div class="table-responsive">
             <table>
@@ -169,6 +231,7 @@
                         <th>Description</th>
                         <th>Price</th>
                         <th>Stock</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -185,10 +248,18 @@
                                     <span class="badge badge-danger">Out of stock</span>
                                 @endif
                             </td>
+                            <td>
+                                <a href="{{ route('products.edit', $product->id) }}" class="btn-action">Edit</a>
+                                <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-delete">Delete</button>
+                                </form>
+                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="empty-state">
+                            <td colspan="6" class="empty-state">
                                 No products found in the database.
                             </td>
                         </tr>
@@ -199,3 +270,4 @@
     </div>
 </body>
 </html>
+
