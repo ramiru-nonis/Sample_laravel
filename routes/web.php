@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\MovieController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\YouTubeController;
@@ -10,7 +11,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Static Pages
+// Static Pages & Demo Routes
 Route::get('/about', function () {
     return view('about');
 })->name('about');
@@ -18,6 +19,22 @@ Route::get('/about', function () {
 Route::get('/greeting', function () {
     return view('greeting');
 })->name('greeting');
+
+Route::get('/color', function () {
+    return view('color');
+})->name('color');
+
+Route::get('/result', function () {
+    return view('result');
+})->name('result');
+
+Route::get('/demo/{id?}/{name?}', function ($id = 1, $name = 'Guest') {
+    return view('demo', compact('id', 'name'));
+})->name('demo');
+
+// Movie Routes
+Route::get('/movies', [MovieController::class, 'index'])->name('movies.index');
+
 
 // User Registration Form Routes
 Route::get('/form', [FormController::class, 'create'])->name('form.create');
